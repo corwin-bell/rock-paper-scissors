@@ -28,11 +28,11 @@ function getPlayerChoice() {
 }
 
 //     playRound(playerSelection, computerSelection)
-//         case if playerSelection and computerSelection tie
+//         if playerSelection and computerSelection tie
 //             return string "Tie, play again. playerSelection ties computerSelection."
-//         case if playerSelection beats computerSelection
+//         if playerSelection beats computerSelection
 //             return string "You Win! playerSelection beats computerSelection."
-//         case if playerSelection loses to computerSelection
+//         if playerSelection loses to computerSelection
 //             return string "You Lose! computerSelection beats playerSelection"
 function playRound(playerSelection, computerSelection) {
     let message = '';
@@ -45,20 +45,50 @@ function playRound(playerSelection, computerSelection) {
         (playerSelection === 'rock' && computerSelection === 'scissors')
         || (playerSelection === 'paper' && computerSelection === 'rock')
         || (playerSelection === 'scissors' && computerSelection === 'paper')) {
-        message = `You win! ${playerSelection} beats ${computerSelection}.`;
+        message = `You win this round! ${playerSelection} beats ${computerSelection}.`;
         return message;
     }
     else {
-        message = `You lose! ${playerSelection} loses to ${computerSelection}.`;
+        message = `You lose this round! ${playerSelection} loses to ${computerSelection}.`;
         return message;
     }
 }
 // best of 5 game function, reports winner or loser
-// for each round, count score of Player and Computer
-
+// while Player and Computer score is less than 3
+//     play a round
+//     count score of Player and Computer
+//     alert the outcome of the round and the current score
+// When either Player or Computer score is equal to 3
+//     end game 
+//     alert the outcome of the game and current score
+function playGame() {
+    let playerScore = 0;
+    let computerScore = 0;
+    let roundMessage = '';
+    let scoreMessage = '';
+    let gameMessage = '';
+    while (playerScore < 3 && computerScore < 3) {
+        roundMessage = playRound(getPlayerChoice(), getComputerChoice());
+        if (roundMessage.includes('win')) {
+            playerScore++;
+        }
+        else {
+            computerScore++;
+        }
+        scoreMessage = `Score is Player: ${playerScore}, Computer: ${computerScore}.`;
+        alert(roundMessage + ' ' + scoreMessage);
+    }
+    if (playerScore === 3) {
+        gameMessage = 'You win the game!';
+    }
+    else {
+        gameMessage = 'You lose the game!';
+    }
+    return gameMessage + ' ' + scoreMessage;
+}
 // call functions
-let roundMessage = playRound(getPlayerChoice(), getComputerChoice());
-alert(roundMessage);
+let game = playGame();
+alert(game);
 
 /* bugs to debug
 bug 1: playerSelection is undefined after entering it correctly after entering it incorrectly
