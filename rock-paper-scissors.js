@@ -1,9 +1,6 @@
 
-// declare variables
+// declare constants
 const rpsArray = ['rock','paper','scissors'];
-let computerSelection = '';
-let playerSelection = '';
-let gameMessage = '';
 
 // declare functions
 //     getComputerChoice
@@ -11,8 +8,8 @@ let gameMessage = '';
 //         assign choice to computerSelection variable
 //         return computerSelection
 function getComputerChoice() {
-    computerSelection = rpsArray[Math.floor(Math.random() * rpsArray.length)];
-    return computerSelection;
+    let computerChoice = rpsArray[Math.floor(Math.random() * rpsArray.length)];
+    return computerChoice;
 }
 
 //     getPlayerChoice
@@ -21,12 +18,12 @@ function getComputerChoice() {
 //         assign choice to playerSelection
 //         return computerSelection
 function getPlayerChoice() {
-    playerSelection = prompt('please enter rock, paper, or scissors','').toLowerCase();
-    if (rpsArray.includes(playerSelection)) {
-        return playerSelection;
+    let playerChoice = prompt('please enter rock, paper, or scissors','').toLowerCase();
+    if (rpsArray.includes(playerChoice)) {
+        return playerChoice;
     }
     else {
-        getPlayerChoice();
+       return getPlayerChoice();
     }
 }
 
@@ -38,19 +35,35 @@ function getPlayerChoice() {
 //         case if playerSelection loses to computerSelection
 //             return string "You Lose! computerSelection beats playerSelection"
 function playRound(playerSelection, computerSelection) {
+    let message = '';
     if (playerSelection === computerSelection) {
-        gameMessage = `Tie, play again. ${playerSelection} ties ${computerSelection}.`;
+        message = `Tie, play again. ${playerSelection} ties ${computerSelection}.`;
+        alert(message);
+        return playRound(getPlayerChoice(),getComputerChoice());
     }
     else if (
         (playerSelection === 'rock' && computerSelection === 'scissors')
         || (playerSelection === 'paper' && computerSelection === 'rock')
         || (playerSelection === 'scissors' && computerSelection === 'paper')) {
-        gameMessage = `You win! ${playerSelection} beats ${computerSelection}.`;
+        message = `You win! ${playerSelection} beats ${computerSelection}.`;
+        return message;
     }
     else {
-        gameMessage = `You lose! ${playerSelection} loses to ${computerSelection}.`;
+        message = `You lose! ${playerSelection} loses to ${computerSelection}.`;
+        return message;
     }
-    return gameMessage
 }
+// best of 5 game function, reports winner or loser
+// for each round, count score of Player and Computer
+
 // call functions
-alert(playRound(getPlayerChoice(), getComputerChoice()));
+let roundMessage = playRound(getPlayerChoice(), getComputerChoice());
+alert(roundMessage);
+
+/* bugs to debug
+bug 1: playerSelection is undefined after entering it correctly after entering it incorrectly
+    this is still true after removing recursion from playRound tie condition
+    could be due to recursion in getPlayerChoice, but not clear why
+solution 1: seems that including return before the recursive function call fixes this
+
+*/
