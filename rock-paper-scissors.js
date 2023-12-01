@@ -53,6 +53,7 @@ function playRound(playerSelection, computerSelection) {
         return message;
     }
 }
+
 // best of 5 game function, reports winner or loser
 // while Player and Computer score is less than 3
 //     play a round
@@ -61,13 +62,13 @@ function playRound(playerSelection, computerSelection) {
 // When either Player or Computer score is equal to 3
 //     end game 
 //     alert the outcome of the game and current score
-function playGame() {
+function playGame(winScore = 3) {
     let playerScore = 0;
     let computerScore = 0;
     let roundMessage = '';
     let scoreMessage = '';
     let gameMessage = '';
-    while (playerScore < 3 && computerScore < 3) {
+    while (playerScore < winScore && computerScore < winScore) {
         roundMessage = playRound(getPlayerChoice(), getComputerChoice());
         if (roundMessage.includes('win')) {
             playerScore++;
@@ -78,7 +79,7 @@ function playGame() {
         scoreMessage = `Score is Player: ${playerScore}, Computer: ${computerScore}.`;
         alert(roundMessage + ' ' + scoreMessage);
     }
-    if (playerScore === 3) {
+    if (playerScore === winScore) {
         gameMessage = 'You win the game!';
     }
     else {
@@ -86,8 +87,9 @@ function playGame() {
     }
     return gameMessage + ' ' + scoreMessage;
 }
+
 // call functions
-let game = playGame();
+let game = playGame(winScore = 3);
 alert(game);
 
 /* bugs to debug
