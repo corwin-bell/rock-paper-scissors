@@ -6,6 +6,7 @@
 // DECLARE CONSTANTS
 const rpsArray = ['rock','paper','scissors']; // to be used for random computer choice
 const rpsButtons = document.querySelectorAll('button');
+const resultPara = document.querySelector('#result')
 
 // DECLARE FUNCTIONS
 function getComputerChoice() {
@@ -70,6 +71,6 @@ function playGame(winScore = 3) {
 rpsButtons.forEach((button) => {
     button.addEventListener('click', () => {
         const playerSelection = button.id;
-        alert(playRound(playerSelection, getComputerChoice()));
+        resultPara.innerHTML = playRound(playerSelection, getComputerChoice());
     })
 });
