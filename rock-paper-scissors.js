@@ -31,7 +31,7 @@ function playRound(playerSelection, computerSelection) {
     return message;
 }
 
-function keepScore(button=button, winScore=5) {
+function keepScore(button, winScore) {
     if (playerScore < winScore && computerScore < winScore) {
         const playerSelection = button.id;
         roundMessage = playRound(playerSelection, getComputerChoice());
@@ -57,5 +57,8 @@ function keepScore(button=button, winScore=5) {
 // CALL FUNCTIONS
 // play rock, paper, scissors game on click
 rpsButtons.forEach((button) => {
-    button.addEventListener('click', keepScore)
+    button.addEventListener('click', () => {
+        keepScore(button, winScore=5);
+    }
+    );
 });
