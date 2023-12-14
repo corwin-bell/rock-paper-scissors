@@ -3,11 +3,13 @@
 // The original comments were psuedocode to help plan implemenation, no longer
 // needed in that form.
 
-// DECLARE CONSTANTS
+// DECLARE CONSTANTS & VARIABLES
 const rpsArray = ['rock','paper','scissors']; // to be used for random computer choice
 const rpsButtons = document.querySelectorAll('button');
 const resultPara = document.querySelector('#result')
-
+let playerScore = 0;
+let computerScore = 0;
+let winScore = 5;
 // DECLARE FUNCTIONS
 function getComputerChoice() {
 //  randomly generate computer's rock, paper, scissors choice
@@ -40,37 +42,31 @@ function playRound(playerSelection, computerSelection) {
 // When either Player or Computer score is equal to 3
 //     end game 
 //     alert the outcome of the game and current score
-function playGame(winScore = 3) {
-    let playerScore = 0;
-    let computerScore = 0;
-    let roundMessage = '';
-    let scoreMessage = '';
-    let gameMessage = '';
-    while (playerScore < winScore && computerScore < winScore) {
-        roundMessage = playRound(getPlayerChoice(), getComputerChoice());
-        if (roundMessage.includes('win')) {
-            playerScore++;
-        }
-        else {
-            computerScore++;
-        }
-        scoreMessage = `Score is Player: ${playerScore}, Computer: ${computerScore}.`;
-        alert(roundMessage + ' ' + scoreMessage);
-    }
-    if (playerScore === winScore) {
-        gameMessage = 'You win the game!';
-    }
-    else {
-        gameMessage = 'You lose the game!';
-    }
-    return gameMessage + ' ' + scoreMessage;
-}
+function keepScore() {}
 
 // CALL FUNCTIONS
 // play rock, paper, scissors game on click
 rpsButtons.forEach((button) => {
     button.addEventListener('click', () => {
-        const playerSelection = button.id;
-        resultPara.innerHTML = playRound(playerSelection, getComputerChoice());
+        if (playerScore < winScore && computerScore < winScore) {
+            const playerSelection = button.id;
+            roundMessage = playRound(playerSelection, getComputerChoice());
+            if (roundMessage.includes('win')) {
+                playerScore++;
+            }
+            else if (roundMessage.includes('lose')){
+                computerScore++;
+            }
+            scoreMessage = `Score is Player: ${playerScore}, Computer: ${computerScore}.`;
+            resultPara.innerHTML = roundMessage + ' ' + scoreMessage; 
+        }
+        else if (playerScore === winScore) {
+            gameMessage = 'You win the game!';
+            resultPara.innerHTML = gameMessage + ' ' + scoreMessage;
+        }
+        else {
+            gameMessage = 'You lose the game!';
+            resultPara.innerHTML = gameMessage + ' ' + scoreMessage;
+        }
     })
 });
