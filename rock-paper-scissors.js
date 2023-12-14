@@ -1,57 +1,34 @@
 
-// declare constants
-const rpsArray = ['rock','paper','scissors'];
+// To do: refactor comments to explain why instead of what
+// The original comments were psuedocode to help plan implemenation, no longer
+// needed in that form.
 
-// declare functions
-//     getComputerChoice
-//         randomly generate choice between rock, paper, or scissors
-//         assign choice to computerSelection variable
-//         return computerSelection
+// DECLARE CONSTANTS
+const rpsArray = ['rock','paper','scissors']; // to be used for random computer choice
+const rpsButtons = document.querySelectorAll('button');
+
+// DECLARE FUNCTIONS
 function getComputerChoice() {
+//  randomly generate computer's rock, paper, scissors choice
     let computerChoice = rpsArray[Math.floor(Math.random() * rpsArray.length)];
     return computerChoice;
 }
-
-//     getPlayerChoice
-//         prompt Player to enter case-insensitive option of rock, paper, or scissors
-//         if Player enters something else, ask for rock, paper, or scissors
-//         assign choice to playerSelection
-//         return computerSelection
-function getPlayerChoice() {
-    let playerChoice = prompt('please enter rock, paper, or scissors','').toLowerCase();
-    if (rpsArray.includes(playerChoice)) {
-        return playerChoice;
-    }
-    else {
-       return getPlayerChoice();
-    }
-}
-
-//     playRound(playerSelection, computerSelection)
-//         if playerSelection and computerSelection tie
-//             return string "Tie, play again. playerSelection ties computerSelection."
-//         if playerSelection beats computerSelection
-//             return string "You Win! playerSelection beats computerSelection."
-//         if playerSelection loses to computerSelection
-//             return string "You Lose! computerSelection beats playerSelection"
 function playRound(playerSelection, computerSelection) {
+    // compare player and computer choice to determine who wins the round
     let message = '';
     if (playerSelection === computerSelection) {
         message = `Tie, play again. ${playerSelection} ties ${computerSelection}.`;
-        alert(message);
-        return playRound(getPlayerChoice(),getComputerChoice());
     }
     else if (
         (playerSelection === 'rock' && computerSelection === 'scissors')
         || (playerSelection === 'paper' && computerSelection === 'rock')
         || (playerSelection === 'scissors' && computerSelection === 'paper')) {
         message = `You win this round! ${playerSelection} beats ${computerSelection}.`;
-        return message;
     }
     else {
         message = `You lose this round! ${playerSelection} loses to ${computerSelection}.`;
-        return message;
     }
+    return message;
 }
 
 // best of 5 game function, reports winner or loser
@@ -88,14 +65,11 @@ function playGame(winScore = 3) {
     return gameMessage + ' ' + scoreMessage;
 }
 
-// call functions
-let game = playGame(winScore = 3);
-alert(game);
-
-/* bugs to debug
-bug 1: playerSelection is undefined after entering it correctly after entering it incorrectly
-    this is still true after removing recursion from playRound tie condition
-    could be due to recursion in getPlayerChoice, but not clear why
-solution 1: seems that including return before the recursive function call fixes this
-
-*/
+// CALL FUNCTIONS
+// play rock, paper, scissors game on click
+rpsButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const playerSelection = button.id;
+        alert(playRound(playerSelection, getComputerChoice()));
+    })
+});
