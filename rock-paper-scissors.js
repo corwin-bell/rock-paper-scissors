@@ -42,31 +42,31 @@ function playRound(playerSelection, computerSelection) {
 // When either Player or Computer score is equal to 3
 //     end game 
 //     alert the outcome of the game and current score
-function keepScore() {}
+function keepScore(button=button, winScore=5) {
+    if (playerScore < winScore && computerScore < winScore) {
+        const playerSelection = button.id;
+        roundMessage = playRound(playerSelection, getComputerChoice());
+        if (roundMessage.includes('win')) {
+            playerScore++;
+        }
+        else if (roundMessage.includes('lose')){
+            computerScore++;
+        }
+        scoreMessage = `Score is Player: ${playerScore}, Computer: ${computerScore}.`;
+        resultPara.innerHTML = roundMessage + ' ' + scoreMessage; 
+    }
+    else if (playerScore === winScore) {
+        gameMessage = 'You win the game!';
+        resultPara.innerHTML = gameMessage + ' ' + scoreMessage;
+    }
+    else {
+        gameMessage = 'You lose the game!';
+        resultPara.innerHTML = gameMessage + ' ' + scoreMessage;
+    }
+}
 
 // CALL FUNCTIONS
 // play rock, paper, scissors game on click
 rpsButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        if (playerScore < winScore && computerScore < winScore) {
-            const playerSelection = button.id;
-            roundMessage = playRound(playerSelection, getComputerChoice());
-            if (roundMessage.includes('win')) {
-                playerScore++;
-            }
-            else if (roundMessage.includes('lose')){
-                computerScore++;
-            }
-            scoreMessage = `Score is Player: ${playerScore}, Computer: ${computerScore}.`;
-            resultPara.innerHTML = roundMessage + ' ' + scoreMessage; 
-        }
-        else if (playerScore === winScore) {
-            gameMessage = 'You win the game!';
-            resultPara.innerHTML = gameMessage + ' ' + scoreMessage;
-        }
-        else {
-            gameMessage = 'You lose the game!';
-            resultPara.innerHTML = gameMessage + ' ' + scoreMessage;
-        }
-    })
+    button.addEventListener('click', keepScore)
 });
